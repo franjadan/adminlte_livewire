@@ -1,7 +1,8 @@
 <div>
     <x-card>
         <x-slot name="card_content">
-            <x-table>
+            <x-table-datatable>
+                <x-slot name="id">datatable</x-slot>
                 <x-slot name="head">
                     <tr>
                         <th scope="col">#</th>
@@ -16,7 +17,7 @@
                     @foreach($posts as $post)
                         <tr class="align-middle">
                             <td>{{ $post->id }}</td>
-                            <td>{{ Storage::url($post->image) }}</td>
+                            <td>@if($post->image)   <img class="img-fluid" src="{{ Storage::url($post->image) }}" alt=""> @endif</td>
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->content }}</td>
                             <td>{{ $post->user->name }}</td>

@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div wire:ignore class="table-responsive">
     <table class="table table-hover" id="{{ $id }}">
         <thead>
             {{ $head }}
@@ -11,7 +11,7 @@
     @section('js')
         <script>
             $('#{{$id}}').DataTable({
-                "order": [[0, 'asc']],
+                "order": [[0, 'desc']],
                 "columnDefs": [
                     { "bSortable": false, "aTargets": [ 1, -1 ] },
                 ],
@@ -39,7 +39,7 @@
                             "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
                             "sSortDescending": ": Activar para ordenar la columna de manera descendente"
                         }
-                    }
+                    },
                 });
         </script>
     @stop

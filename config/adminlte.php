@@ -293,6 +293,11 @@ return [
             'icon' => 'far fa-list-alt',
             'route' => 'posts',
         ],
+        [
+            'text' => 'Usuarios',
+            'icon' => 'fas fa-users',
+            'route' => 'users',
+        ],
     ],
 
     /*

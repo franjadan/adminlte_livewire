@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\PostComponent;
+use App\Http\Livewire\{PostComponent, UserComponent};
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +20,7 @@ Route::get('/', function(){
 
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/posts', PostComponent::class)->name('posts');
+    Route::get('/usuarios', UserComponent::class)->name('users');
 });
 
 Auth::routes();

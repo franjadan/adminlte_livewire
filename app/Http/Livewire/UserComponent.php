@@ -15,7 +15,7 @@ class UserComponent extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-    public $user_id, $name, $email, $password, $password_confirmation, $new_password, $new_password_confirmation;
+    public $user_id, $name, $email, $password, $password_confirmation, $new_password, $new_password_confirmation, $role;
     public $modal_id, $modal_title, $modal_method, $modal_success_btn;
     public $search = '', $cant = '10', $sort = 'id', $direction = 'desc';
     public $edit_view = false;
@@ -38,7 +38,8 @@ class UserComponent extends Component
             'password' => ['sometimes', 'required', 'min:3'],
             'password_confirmation' => ['sometimes', 'required_with:password', 'same:password'],
             'new_password' => ['sometimes', 'nullable', 'min:3'],
-            'new_password_confirmation' => ['sometimes', 'required_with:new_password', 'same:new_password']
+            'new_password_confirmation' => ['sometimes', 'required_with:new_password', 'same:new_password'],
+            'role' => ['required'],
         ];
     }
 
@@ -49,6 +50,7 @@ class UserComponent extends Component
         'new_password' => 'Contraseña',
         'new_password_confirmation' => 'Confirmar contraseña',
         'password_confirmation' => 'Confirmar contraseña',
+        'role' => 'Rol'
     ];
 
     public function updated($propertyName){
@@ -100,7 +102,8 @@ class UserComponent extends Component
             'name' => $this->name,
             'email' => $this->email,
             'password' => bcrypt($this->password),
-        ]);
+            'role' => $this->role,
+        ]); 
 
         $this->emit('closeModal', 'createModal');
         $this->emit('alert', 'success', 'Se ha creado el usuario con éxito');
@@ -112,6 +115,7 @@ class UserComponent extends Component
         $this->email = $user->email;
         $this->password = $user->password;
         $this->password_confirmation = $user->password;
+        $this->role = $user->role;
         $this->edit_view = true;
         $this->modal_id = "editModal";
         $this->modal_title = "Editar usuario";
@@ -135,6 +139,7 @@ class UserComponent extends Component
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,
+            'role' => $this->role,
         ]);
 
         $this->emit('closeModal', 'editModal');

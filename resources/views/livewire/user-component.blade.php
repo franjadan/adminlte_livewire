@@ -61,8 +61,15 @@
                             <p class="text-danger"><small>{{ $message }}</small></p>
                         @enderror
                     </div>
-                    
                 @endif
+
+                <div class="mb-3">
+                    <label for="">Rol</label>
+                    <select class="form-control" wire:model="role">
+                        <option value="2">Usuario</option>
+                        <option value="1">Administrador</option>
+                    </select>
+                </div>
             </div>
         </x-slot>
 
@@ -92,7 +99,7 @@
                     @foreach($users as $user)
                         <tr class="text-center align-middle">
                             <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->name }} {{ $user->isAdmin() ? '(Admin)' : '' }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
                                 <div class="d-flex">

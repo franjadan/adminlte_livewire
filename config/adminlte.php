@@ -297,6 +297,7 @@ return [
             'text' => 'Usuarios',
             'icon' => 'fas fa-users',
             'route' => 'users',
+            'can' => 'viewAny-user'
         ],
     ],
 

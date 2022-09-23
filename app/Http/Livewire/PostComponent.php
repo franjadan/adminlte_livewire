@@ -7,15 +7,31 @@ use App\Models\{User, Post};
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
+use Livewire\WithPagination;
 
 class PostComponent extends Component
 {
     use WithFileUploads;
+    use WithPagination;
+
+    protected $paginationTheme = 'bootstrap';
 
     public $post_id, $user_id, $image, $title, $content;
     public $new_image, $input_id;
     public $modal_id, $modal_title, $modal_method, $modal_success_btn;
     public $users;
+    public $search = '', $cant = '10', $sort = 'id', $direction = 'desc';
+
+    protected $queryString = [
+        'cant' => ['except' => '10'],
+        'sort' => ['except' => 'id'],
+        'direction' => ['except' => 'desc'],
+        'search' => ['except' => '']
+    ];
+
+    protected $listeners = [
+        'delete',
+    ];
 
     protected $rules = [
         'title' => ['required'],
@@ -33,17 +49,35 @@ class PostComponent extends Component
         $this->validateOnly($propertyName);
     }
 
+    public function updatingSearch(){
+        $this->resetPage();
+    }
+
     public function __construct()
     {
-
         $users = User::all();
         $this->users = $users;
     }
+    
 
     public function render()
     {
-        $posts = Post::all();
+        $posts = Post::select('posts.*')->join('users', 'users.id', 'posts.user_id')->where('name', 'like', '%' . $this->search . '%')->orWhere('title', 'like', '%' . $this->search . '%')->where('title', 'like', '%' . $this->search . '%')->orWhere('content', 'like', '%' . $this->search . '%')->orderBy($this->sort, $this->direction)->paginate($this->cant);
         return view('livewire.post-component', compact('posts'))->extends('posts.index')->section('content');
+    }
+
+    public function order($sort){
+        
+        if($this->sort == $sort){
+            if($this->direction == 'desc'){
+                $this->direction = 'asc';
+            }else{
+                $this->direction = 'desc';
+            }
+        }else{
+            $this->sort = $sort;
+            $this->direction = 'asc';
+        }
     }
 
     public function create(){
@@ -54,7 +88,6 @@ class PostComponent extends Component
         $this->modal_method = "save";
         $this->modal_success_btn = "Crear post";
         $this->input_id = Str::random(5);
-
         $this->emit('openModal', 'createModal');
 
     }
@@ -77,7 +110,7 @@ class PostComponent extends Component
         ]);
 
         $this->emit('closeModal', 'createModal');
-        $this->emit('successAlert', 'Se ha creado el post con éxito');
+        $this->emit('alert', 'success', 'Se ha creado el post con éxito');
     }
 
     public function edit(Post $post){
@@ -114,8 +147,13 @@ class PostComponent extends Component
         ]);
 
         $this->emit('closeModal', 'editModal');
-        $this->emit('successAlert', 'Se ha editado el post con éxito');
+        $this->emit('alert', 'success', 'Se ha editado el post con éxito');
+    }
 
+    public function delete(Post $post){
 
+        $post->delete();
+
+        $this->emit('alert', 'success', 'Se ha eliminado el post con éxito');
     }
 }

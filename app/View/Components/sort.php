@@ -4,16 +4,20 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class model extends Component
+class sort extends Component
 {
+
+    public $field, $sort, $direction;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($field, $sort, $direction)
     {
-        //
+        $this->field = $field;
+        $this->sort = $sort;
+        $this->direction = $direction;
     }
 
     /**
@@ -23,6 +27,6 @@ class model extends Component
      */
     public function render()
     {
-        return view('components.model');
+        return view('components.sort');
     }
 }

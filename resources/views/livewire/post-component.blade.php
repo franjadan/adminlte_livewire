@@ -1,7 +1,6 @@
 <div>
     <!-- Modal creación y edición -->
-        <x-modal>
-            <x-slot name="id">{{ $modal_id }}</x-slot>
+        <x-modal :id="$modal_id">
             <x-slot name="title">
                 {{ $modal_title }}
             </x-slot>
@@ -66,20 +65,23 @@
             </x-slot>
         </x-modal>
     <!-- Fin modal -->
+
+
     <x-card>
         <x-slot name="card_content">
+
             <div class="my-3">
                 <button class="btn btn-primary" wire:click="create"><i class="fas fa-plus"></i> Crear nuevo post</button>
             </div>
-            <x-table-datatable>
-                <x-slot name="id">datatable</x-slot>
+
+            <x-table :items="$posts">
                 <x-slot name="head">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Imagen</th>
-                        <th scope="col">Título</th>
-                        <th scope="col">Contenido</th>
-                        <th scope="col">Usuario</th>
+                        <th class="cursor-pointer" wire:click="order('id')" scope="col"># <x-sort field="id" :sort="$sort" :direction="$direction"></x-sort></th>
+                        <th scope="col">Imagen </th>
+                        <th class="cursor-pointer" wire:click="order('title')" scope="col">Título <x-sort field="title" :sort="$sort" :direction="$direction"></x-sort></th>
+                        <th class="cursor-pointer" wire:click="order('content')" scope="col">Contenido <x-sort field="content" :sort="$sort" :direction="$direction"></x-sort></th>
+                        <th class="cursor-pointer" wire:click="order('users.name')" scope="col">Usuario <x-sort field="users.name" :sort="$sort" :direction="$direction"></x-sort></th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </x-slot>
@@ -91,13 +93,17 @@
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->content }}</td>
                             <td>{{ $post->user->name }}</td>
-                            <td><button class="btn btn-primary" wire:click="edit({{ $post }})"><i class="fas fa-edit"></i></button></td>
+                            <td>
+                                <div class="d-flex">
+                                    <button class="btn btn-primary" wire:click="edit({{ $post }})"><i class="fas fa-edit"></i></button>
+                                    <button type="button" wire:click="$emit('deleteModel', {{ $post->id }})" class="ml-2 btn btn-danger"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                 </x-slot>
             </x-table>
+           
         </x-slot>
     </x-card>
-
-
 </div>

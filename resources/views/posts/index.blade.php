@@ -10,22 +10,21 @@
 
 @stop
 
-
 @section('css')
-
-@stop
-
-@section('js')
-
+    <style>
+        .cursor-pointer{
+            cursor: pointer;
+        }
+    </style>
 @stop
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        Livewire.on('successAlert', function($message){
+        Livewire.on('alert', function($type, $message){
             Swal.fire(
                 'Good job!',
                 $message,
-                'success'
+                $type
             );
         });
 
@@ -36,6 +35,23 @@
         Livewire.on('closeModal', function($id){
             $("#" + $id).modal('hide');
         });
+
+        Livewire.on('deleteModel', id => {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value == true) {
+                    Livewire.emitTo('post-component', 'delete', id);
+                }
+            });
+        });
     });
 </script>
+
 

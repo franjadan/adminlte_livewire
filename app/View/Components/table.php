@@ -6,14 +6,17 @@ use Illuminate\View\Component;
 
 class table extends Component
 {
+
+    public $items;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($items)
     {
-        //
+        $this->items = $items;
     }
 
     /**

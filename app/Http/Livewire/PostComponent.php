@@ -63,7 +63,11 @@ class PostComponent extends Component
     public function render()
     {
         $title = "Posts";
-        $posts = Post::select('posts.*')->join('users', 'users.id', 'posts.user_id')->where('name', 'like', '%' . $this->search . '%')->orWhere('title', 'like', '%' . $this->search . '%')->where('title', 'like', '%' . $this->search . '%')->orWhere('content', 'like', '%' . $this->search . '%')->orderBy($this->sort, $this->direction)->paginate($this->cant);
+        if(auth()->user()->isAdmin()){
+            $posts = Post::select('posts.*')->join('users', 'users.id', 'posts.user_id')->where('name', 'like', '%' . $this->search . '%')->orWhere('title', 'like', '%' . $this->search . '%')->where('title', 'like', '%' . $this->search . '%')->orWhere('content', 'like', '%' . $this->search . '%')->orderBy($this->sort, $this->direction)->paginate($this->cant);
+        }else{
+            $posts = Post::where('user_id', auth()->user()->id)->where(function($query){ $query->where('title', 'like', '%' . $this->search . '%')->where('title', 'like', '%' . $this->search . '%')->orWhere('content', 'like', '%' . $this->search . '%'); })->orderBy($this->sort, $this->direction)->paginate($this->cant);
+        }
         return view('livewire.post-component', compact('posts'))->extends('dashboard', compact('title'))->section('content');
     }
 

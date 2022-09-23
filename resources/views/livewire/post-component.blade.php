@@ -25,14 +25,17 @@
                             </div>
                         @endif
                     @endif
-                    <div class="mb-3">
-                        <label for="">Usuario</label>
-                        <select wire:model="user_id" class="form-control">
-                            @foreach($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+
+                    @if(auth()->user()->isAdmin())
+                        <div class="mb-3">
+                            <label for="">Usuario</label>
+                            <select wire:model="user_id" class="form-control">
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
 
                     <div class="mb-3">
                         <label for="title">Título del post</label>
@@ -81,7 +84,9 @@
                         <th scope="col">Imagen </th>
                         <th class="cursor-pointer" wire:click="order('title')" scope="col">Título <x-sort field="title" :sort="$sort" :direction="$direction"></x-sort></th>
                         <th class="cursor-pointer" wire:click="order('content')" scope="col">Contenido <x-sort field="content" :sort="$sort" :direction="$direction"></x-sort></th>
-                        <th class="cursor-pointer" wire:click="order('users.name')" scope="col">Usuario <x-sort field="users.name" :sort="$sort" :direction="$direction"></x-sort></th>
+                        @if(auth()->user()->isAdmin())
+                            <th class="cursor-pointer" wire:click="order('users.name')" scope="col">Usuario <x-sort field="users.name" :sort="$sort" :direction="$direction"></x-sort></th>
+                        @endif    
                         <th scope="col">Acciones</th>
                     </tr>
                 </x-slot>
@@ -92,7 +97,10 @@
                             <td>@if($post->image)   <img class="img-fluid" src="{{ Storage::url($post->image) }}" alt=""> @endif</td>
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->content }}</td>
-                            <td>{{ $post->user->name }}</td>
+                            
+                            @if(auth()->user()->isAdmin())
+                                <td>{{ $post->user->name }}</td>
+                            @endif
                             <td>
                                 <div class="d-flex">
                                     <button class="btn btn-primary" wire:click="edit({{ $post }})"><i class="fas fa-edit"></i></button>

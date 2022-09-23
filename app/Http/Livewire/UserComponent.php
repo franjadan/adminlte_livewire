@@ -75,9 +75,10 @@ class UserComponent extends Component
 
     public function render()
     {
+        $title = "Usuarios";
         $users = User::where('id', '<>', auth()->user()->id)->where(function ($query){ return $query->where('name', 'like', '%' . $this->search . '%')->orWhere('email', 'like', '%' . $this->search . '%'); })->orderBy($this->sort, $this->direction)->paginate($this->cant);
                 
-        return view('livewire.user-component', compact('users'))->extends('users.index')->section('content');
+        return view('livewire.user-component', compact('users'))->extends('dashboard', compact('title'))->section('content');
     }
 
     public function create(){

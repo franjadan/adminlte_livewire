@@ -62,8 +62,9 @@ class PostComponent extends Component
 
     public function render()
     {
+        $title = "Posts";
         $posts = Post::select('posts.*')->join('users', 'users.id', 'posts.user_id')->where('name', 'like', '%' . $this->search . '%')->orWhere('title', 'like', '%' . $this->search . '%')->where('title', 'like', '%' . $this->search . '%')->orWhere('content', 'like', '%' . $this->search . '%')->orderBy($this->sort, $this->direction)->paginate($this->cant);
-        return view('livewire.post-component', compact('posts'))->extends('posts.index')->section('content');
+        return view('livewire.post-component', compact('posts'))->extends('dashboard', compact('title'))->section('content');
     }
 
     public function order($sort){

@@ -4,13 +4,11 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
-use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithPagination;
 
 class UserComponent extends Component
 {
-    use WithFileUploads;
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
@@ -110,6 +108,7 @@ class UserComponent extends Component
     }
 
     public function edit(User $user){
+        $this->reset();
         $this->user_id = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;

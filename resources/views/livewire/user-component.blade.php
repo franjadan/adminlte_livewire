@@ -89,9 +89,9 @@
             <x-table :items="$users">
                 <x-slot name="head">
                     <tr>
-                        <th class="cursor-pointer" wire:click="order('id')" scope="col"></th>
-                        <th class="cursor-pointer" wire:click="order('name')" scope="col"></th>
-                        <th class="cursor-pointer" wire:click="order('email')" scope="col"></th>
+                        <th class="cursor-pointer" wire:click="order('id')" scope="col"><x-sort field="id" label='#' :sort="$sort" :direction="$direction"></x-sort></th>
+                        <th class="cursor-pointer" wire:click="order('name')" scope="col"><x-sort field="name" label='Nombre' :sort="$sort" :direction="$direction"></x-sort></th>
+                        <th class="cursor-pointer" wire:click="order('email')" scope="col"><x-sort field="email" label='Correo' :sort="$sort" :direction="$direction"></x-sort></th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </x-slot>

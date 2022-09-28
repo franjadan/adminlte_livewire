@@ -80,12 +80,12 @@
             <x-table :items="$posts">
                 <x-slot name="head">
                     <tr>
-                        <th class="cursor-pointer" wire:click="order('id')" scope="col"># <x-sort field="id" :sort="$sort" :direction="$direction"></x-sort></th>
+                        <th class="cursor-pointer" wire:click="order('id')" scope="col"><x-sort field="id" label='#' :sort="$sort" :direction="$direction"></x-sort></th>
                         <th scope="col">Imagen </th>
-                        <th class="cursor-pointer" wire:click="order('title')" scope="col">Título <x-sort field="title" :sort="$sort" :direction="$direction"></x-sort></th>
-                        <th class="cursor-pointer" wire:click="order('content')" scope="col">Contenido <x-sort field="content" :sort="$sort" :direction="$direction"></x-sort></th>
+                        <th class="cursor-pointer" wire:click="order('title')" scope="col"><x-sort field="title" label="Título" :sort="$sort" :direction="$direction"></x-sort></th>
+                        <th class="cursor-pointer" wire:click="order('content')" scope="col"><x-sort field="content" label="Contenido" :sort="$sort" :direction="$direction"></x-sort></th>
                         @if(auth()->user()->isAdmin())
-                            <th class="cursor-pointer" wire:click="order('users.name')" scope="col">Usuario <x-sort field="users.name" :sort="$sort" :direction="$direction"></x-sort></th>
+                            <th class="cursor-pointer" wire:click="order('users.name')" scope="col"><x-sort label="Usuario" field="users.name" :sort="$sort" :direction="$direction"></x-sort></th>
                         @endif    
                         <th scope="col">Acciones</th>
                     </tr>

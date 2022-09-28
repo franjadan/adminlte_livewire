@@ -7,14 +7,15 @@ use Illuminate\View\Component;
 class sort extends Component
 {
 
-    public $field, $sort, $direction;
+    public $label, $field, $sort, $direction;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($field, $sort, $direction)
+    public function __construct($label, $field, $sort, $direction)
     {
+        $this->label = $label;
         $this->field = $field;
         $this->sort = $sort;
         $this->direction = $direction;
